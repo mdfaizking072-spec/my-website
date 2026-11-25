@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All-in-One Hub | शिक्षा, व्यापार, तकनीक और समाचार</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: var(--bg); color: var(--text); line-height: 1.6; }
+
+        /* Navigation */
+        header {
+            background: var(--card-bg);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .logo { font-size: 1.5rem; font-weight: 800; color: var(--primary); text-decoration: none; }
+        .logo span { color: var(--text); }
+        nav { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+        .nav-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            padding: 0.45rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text);
+            transition: all 0.2s;
+        }
+        .nav-btn:hover, .nav-btn.active {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+        }
+
+        /* Hero & Search */
+        .hero {
+            background: linear-gradient(135deg, #1e3a8a, #2563eb);
+            color: white;
+            text-align: center;
+            padding: 3.5rem 5%;
+        }
+        .hero h1 { font-size: 2.2rem; margin-bottom: 0.75rem; }
+        .hero p { font-size: 1.1rem; opacity: 0.9; max-width: 650px; margin: 0 auto 1.5rem; }
+        .search-box {
+            max-width: 550px;
+            margin: 0 auto;
+            display: flex;
+            background: white;
+            border-radius: 30px;
+            padding: 0.35rem 1rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+        .search-box input {
+            width: 100%;
+            border: none;
+            outline: none;
+            padding: 0.6rem;
+            font-size: 1rem;
+        }
+
+        /* Main Content Grid */
+        .container { max-width: 1200px; margin: 2.5rem auto; padding: 0 5%; }
+        .section-title { font-size: 1.5rem; margin-bottom: 1.25rem; border-left: 4px solid var(--primary); padding-left: 0.75rem; }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+            gap: 1.5rem;
+        }
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .card:hover { transform: translateY(-4px); box-shadow: 0 10px 20px rgba(0,0,0,0.06); }
+        .badge {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 0.25rem 0.65rem;
+            border-radius: 6px;
+            margin-bottom: 0.75rem;
+            width: fit-content;
+        }
+        .badge.education { background: #dbeafe; color: #1e40af; }
+        .badge.business { background: #dcfce7; color: #166534; }
+        .badge.tech { background: #f3e8ff; color: #6b21a8; }
+        .badge.news { background: #fee2e2; color: #991b1b; }
+        .card h3 { font-size: 1.2rem; margin-bottom: 0.5rem; }
+        .card p { color: var(--text-light); font-size: 0.95rem; margin-bottom: 1.25rem; }
+        .read-btn {
+            background: var(--bg);
+            color: var(--primary);
+            border: 1px solid var(--primary);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: center;
+            transition: 0.2s;
+        }
+        .read-btn:hover { background: var(--primary); color: white; }
+
+        /* Smart Tools Section */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+        .tool-box {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+        .tool-box h3 { margin-bottom: 1rem; color: var(--primary); }
+        .tool-box input, .tool-box textarea {
+            width: 100%;
+            padding: 0.65rem;
+            margin-bottom: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.95rem;
+        }
+        .action-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .action-btn:hover { background: var(--primary-dark); }
+        .result-text { margin-top: 0.75rem; font-weight: 700; color: #166534; }
+
+        /* Modal Popup */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.55);
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+            z-index: 200;
+        }
+        .modal-content {
+            background: white;
+            max-width: 600px;
+            width: 100%;
+            border-radius: 12px;
+            padding: 2rem;
+            position: relative;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1.25rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            border: none;
+            background: none;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem 5%;
+            background: var(--card-bg);
+            border-top: 1px solid var(--border);
+            margin-top: 3rem;
+            color: var(--text-light);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="#" class="logo">All-in-One<span>Hub</span></a>
+        <nav id="category-nav">
+            <button class="nav-btn active" onclick="filterCategory('all', this)">सभी (All)</button>
+            <button class="nav-btn" onclick="filterCategory('education', this)">शिक्षा (Education)</button>
+            <button class="nav-btn" onclick="filterCategory('business', this)">व्यापार (Business)</button>
+            <button class="nav-btn" onclick="filterCategory('tech', this)">तकनीक (Tech)</button>
+            <button class="nav-btn" onclick="filterCategory('news', this)">समाचार (News)</button>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h1>एक ही प्लेटफॉर्म पर हर जानकारी</h1>
+        <p>शिक्षा, सरकारी परीक्षाएं, बिजनेस आइडियाज़, टेक्नोलॉजी और उपयोगी टूल्स — सब कुछ एक जगह।</p>
+        <div class="search-box">
+            <input type="text" id="searchInput" onkeyup="searchArticles()" placeholder="यहाँ खोजें (जैसे: बिजनेस, परीक्षा, AI, निवेश)...">
+        </div>
+    </section>
+
+    <main class="container">
+        <h2 class="section-title">प्रमुख लेख और जानकारी</h2>
+        <div class="grid" id="articlesGrid"></div>
+
+        <h2 class="section-title" style="margin-top: 3rem;">स्मार्ट टूल्स (Smart Tools)</h2>
+        <div class="tools-grid">
+            <!-- Percentage Calculator -->
+            <div class="tool-box">
+                <h3>प्रतिशत कैलकुलेटर (Percentage Calculator)</h3>
+                <input type="number" id="obtainedMarks" placeholder="प्राप्त अंक या राशि (जैसे: 420)">
+                <input type="number" id="totalMarks" placeholder="कुल अंक या राशि (जैसे: 500)">
+                <button class="action-btn" onclick="calculatePercentage()">गणना करें</button>
+                <div class="result-text" id="percentResult"></div>
+            </div>
+
+            <!-- Quick Notes -->
+            <div class="tool-box">
+                <h3>क्विक नोट्स पैड (Quick Notes)</h3>
+                <textarea id="quickNotes" rows="4" placeholder="अपने ज़रूरी नोट्स या आइडियाज़ यहाँ लिखें..."></textarea>
+                <button class="action-btn" onclick="saveNotes()">नोट सेव करें</button>
+                <div class="result-text" id="noteStatus"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Article Modal -->
+    <div class="modal" id="articleModal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal()">&times;</button>
+            <span class="badge" id="modalBadge"></span>
+            <h2 id="modalTitle" style="margin-bottom: 1rem;"></h2>
+            <p id="modalBody" style="color: #334155; white-space: pre-line;"></p>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 All-in-One Hub | सर्वाधिकार सुरक्षित</p>
+    </footer>
+
+    <script>
+        const articles = [
+            {
+                id: 1,
+                category: 'education',
+                categoryName: 'शिक्षा (Education)',
+                title: 'प्रतियोगी परीक्षाओं की तैयारी कैसे करें?',
+                summary: 'समय प्रबंधन, सिलेबस विश्लेषण और मॉक टेस्ट के ज़रिए सफलता पाने के सटीक तरीके।',
+                content: 'किसी भी प्रतियोगी परीक्षा (जैसे SSC, BSSC, या बैंकिंग) में सफलता के लिए सबसे पहले पूरे सिलेबस को छोटे हिस्सों में बांटें।\n\n1. रोज़ाना कम से कम 4-5 घंटे का फोकस्ड टाइम टेबल बनाएं।\n2. पिछले 5 वर्षों के प्रश्न पत्र हल करें।\n3. हर हफ्ते मॉक टेस्ट दें और अपनी गलतियों का विश्लेषण करें।'
+            },
+            {
+                id: 2,
+                category: 'business',
+                categoryName: 'व्यापार (Business)',
+                title: 'कम लागत में शुरू होने वाले 5 लाभदायक बिजनेस',
+                summary: 'छोटे शहर या गाँव से शुरू किए जा सकने वाले आधुनिक और पारंपरिक व्यापार के अवसर।',
+                content: 'कम पूंजी में व्यापार शुरू करने के लिए इन विकल्पों पर विचार करें:\n\n1. डिजिटल सेवा केंद्र (CSC) और ऑनलाइन फॉर्म सेवा।\n2. क्लाउड किचन या होममेड टिफिन सर्विस।\n3. मोबाइल और कंप्यूटर एक्सेसरीज़ रिपेयरिंग।\n4. ऑर्गेनिक खेती या डेयरी प्रोडक्ट सप्लाई।\n5. सोशल मीडिया मार्केटिंग और लोकल बिज़नेस प्रमोशन।'
+            },
+            {
+                id: 3,
+                category: 'tech',
+                categoryName: 'तकनीक (Tech)',
+                title: 'AI टूल्स से अपना रोज़मर्रा का काम आसान बनाएं',
+                summary: 'आर्टिफिशियल इंटेलिजेंस की मदद से पढ़ाई, कोडिंग और कंटेंट क्रिएशन को तेज़ करें।',
+                content: 'आधुनिक AI टूल्स का उपयोग करके आप घंटों का काम मिनटों में कर सकते हैं:\n\n• पढ़ाई और नोट्स सारांश के लिए AI चैटबॉट्स का उपयोग करें।\n• प्रेजेंटेशन, वीडियो एडिटिंग और ग्राफिक डिज़ाइन के लिए ऑटोमेटेड टूल्स अपनाएं।\n• कोडिंग सीखने और वेबसाइट बनाने के लिए AI असिस्टेंट की मदद लें।'
+            },
+            {
+                id: 4,
+                category: 'news',
+                categoryName: 'समाचार (News)',
+                title: 'डिजिटल इंडिया और स्टार्टअप इकोसिस्टम में तेज़ी',
+                summary: 'देश भर में नए स्टार्टअप्स और डिजिटल पेमेंट इंफ्रास्ट्रक्चर का तेज़ी से विस्तार हो रहा है।',
+                content: 'हालिया रिपोर्टों के अनुसार, छोटे शहरों और ग्रामीण क्षेत्रों में इंटरनेट की पहुंच बढ़ने से ई-कॉमर्स, एडटेक और फिनटेक सेवाओं का उपयोग तेज़ी से बढ़ा है। सरकार की विभिन्न योजनाओं के तहत नए उद्यमियों को आसान ऋण और प्रशिक्षण उपलब्ध कराया जा रहा है।'
+            },
+            {
+                id: 5,
+                category: 'education',
+                categoryName: 'शिक्षा (Education)',
+                title: 'ऑनलाइन फ्री कोर्सेज से नई स्किल्स सीखें',
+                summary: 'घर बैठे कंप्यूटर, कोडिंग, डिजिटल मार्केटिंग और अंग्रेजी बोलने का कौशल विकसित करें।',
+                content: 'आज के समय में डिग्री के साथ-साथ प्रैक्टिकल स्किल्स होना बहुत ज़रूरी है। आप SWAYAM, NPTEL और विभिन्न ओपन प्लेटफॉर्म से डेटा एनालिटिक्स, वेब डेवलपमेंट और फाइनेंशियल लिटरेसी के सर्टिफिकेट कोर्स मुफ्त में कर सकते हैं।'
+            },
+            {
+                id: 6,
+                category: 'business',
+                categoryName: 'व्यापार (Business)',
+                title: 'अपने छोटे व्यापार को ऑनलाइन कैसे लाएं?',
+                summary: 'Google Business Profile और सोशल मीडिया के ज़रिए नए ग्राहकों तक पहुँचें।',
+                content: 'अपने स्थानीय व्यवसाय को बढ़ाने के लिए:\n\n1. Google Maps पर अपनी दुकान या ऑफिस को मुफ्त में रजिस्टर करें।\n2. WhatsApp Business ऐप पर अपने प्रोडक्ट्स का कैटलॉग बनाएं।\n3. फेसबुक और इंस्टाग्राम पर नियमित रूप से अपने काम के वीडियो और फोटो साझा करें।'
+            }
+        ];
+
+        let currentCategory = 'all';
+
+        function renderArticles(list) {
+            const grid = document.getElementById('articlesGrid');
+            grid.innerHTML = '';
+            if (list.length === 0) {
+                grid.innerHTML = '<p style="color: var(--text-light);">कोई परिणाम नहीं मिला। कृपया दूसरा शब्द खोजें।</p>';
+                return;
+            }
+            list.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <div>
+                        <span class="badge ${item.category}">${item.categoryName}</span>
+                        <h3>${item.title}</h3>
+                        <p>${item.summary}</p>
+                    </div>
+                    <button class="read-btn" onclick="openModal(${item.id})">पूरा पढ़ें</button>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function filterCategory(cat, btn) {
+            currentCategory = cat;
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            searchArticles();
+        }
+
+        function searchArticles() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = articles.filter(item => {
+                const matchesCat = currentCategory === 'all' || item.category === currentCategory;
+                const matchesText = item.title.toLowerCase().includes(query) || item.summary.toLowerCase().includes(query);
+                return matchesCat && matchesText;
+            });
+            renderArticles(filtered);
+        }
+
+        function openModal(id) {
+            const article = articles.find(a => a.id === id);
+            if (!article) return;
+            const badge = document.getElementById('modalBadge');
+            badge.className = `badge ${article.category}`;
+            badge.textContent = article.categoryName;
+            document.getElementById('modalTitle').textContent = article.title;
+            document.getElementById('modalBody').textContent = article.content;
+            document.getElementById('articleModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('articleModal').style.display = 'none';
+        }
+
+        window.onclick = function(e) {
+            const modal = document.getElementById('articleModal');
+            if (e.target === modal) closeModal();
+        }
+
+        function calculatePercentage() {
+            const obtained = parseFloat(document.getElementById('obtainedMarks').value);
+            const total = parseFloat(document.getElementById('totalMarks').value);
+            const res = document.getElementById('percentResult');
+            if (!obtained || !total || total <= 0) {
+                res.style.color = '#dc2626';
+                res.textContent = 'कृपया सही संख्या दर्ज करें।';
+                return;
+            }
+            const percent = ((obtained / total) * 100).toFixed(2);
+            res.style.color = '#166534';
+            res.textContent = `परिणाम: ${percent}%`;
+        }
+
+        function saveNotes() {
+            const text = document.getElementById('quickNotes').value;
+            localStorage.setItem('allInOneHubNotes', text);
+            const status = document.getElementById('noteStatus');
+            status.textContent = 'नोट सुरक्षित रूप से सेव हो गया!';
+            setTimeout(() => status.textContent = '', 2500);
+        }
+
+        // Load saved notes & initial articles
+        window.onload = () => {
+            const saved = localStorage.getItem('allInOneHubNotes');
+            if (saved) document.getElementById('quickNotes').value = saved;
+            renderArticles(articles);
+        };
+    </script>
+</body>
+</html>
